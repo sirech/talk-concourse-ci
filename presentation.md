@@ -55,11 +55,39 @@ class: center middle
 
 ## thousands of lines of a self written groovy DSL
 
+???
+
+- predates jenkins pipelines
+
 ---
 
 class: center middle
 
 ## 4 test systems
+
+???
+
+- still on premise
+
+---
+
+class: center middle
+
+## self written deployment framework based on Chef
+
+???
+
+- unsuited for cloud migration
+
+---
+
+class: center middle
+
+## decided to explore options, and chose Concourse
+
+???
+
+- situation was so bad that anything would have been an improvement
 
 ---
 
@@ -72,6 +100,10 @@ class: impact no-counter
 class: center middle
 
 ## Written in Go
+
+???
+
+- pivotal
 
 ---
 
@@ -94,6 +126,10 @@ class: center middle
 class: center middle
 
 ## yaml based
+
+???
+
+- code driven
 
 ---
 
@@ -179,7 +215,7 @@ ip-3.aws.compute  18         linux    none none running 2.1
 the following workers have not checked in recently:
 
 name              containers platform tags team state   version
-ip-2.aws.compute  1          linux    none none running 2.1
+ip-4.aws.compute  1          linux    none none running 2.1
 
 these stalled workers can be cleaned up by running:
 
@@ -191,7 +227,7 @@ these stalled workers can be cleaned up by running:
 # Hijack
 
 ```console
-$ fly -t aftersales hijack -j service-api/test
+$ fly -t concourse hijack -j service-api/test
 1: build #95, step: test-integration, type: task
 2: build #95, step: test-unit, type: task
 choose a container: 2
@@ -200,6 +236,12 @@ bash-4.3# pwd
 bash-4.3# cd git
 bash-4.3# ./go test-unit
 ```
+
+---
+
+class: center middle quirk
+
+## Hijack won't work if the container does not have bash
 
 ---
 
@@ -219,6 +261,10 @@ Available commands:
   execute              Execute a one-off build using local bits (aliases: e)
   (...)
 ```
+
+???
+
+- CLI approach can be scary for people used to the click, click, click of Jenkins
 
 ---
 
@@ -272,6 +318,10 @@ class: middle
 
 ## https://concourse-ci.org/included-resources.html
 
+???
+
+- funky resources like time
+
 ---
 
 ```yaml
@@ -305,6 +355,10 @@ class: center middle
 class: center middle quirk
 
 ## it is the only way to store artifacts in concourse
+
+???
+
+- can be painful for things like getting screenshots produced by an e2e task
 
 ---
 
@@ -415,7 +469,7 @@ run:
 
 class: center middle quirk
 
-## WORKDIR, ENTRYPOINT, CMD are ignored
+## WORKDIR, ENTRYPOINT, USER, CMD are ignored
 
 ---
 
@@ -436,13 +490,24 @@ yarn
 
 class: center middle
 
-## Reuse through shared tasks
+## reuse through shared tasks
 
 ???
 
 - extra repo as new resource
 - use parametrized tasks
 - still, plenty of yaml
+
+---
+
+class: center middle
+
+## shared containers
+
+???
+
+- a lot of containers need to be built, or one massive one
+- tricky decission between reuse and repeat
 
 ---
 
@@ -467,6 +532,11 @@ class: impact no-counter
 
 class: full-width
 background-image: url(images/failingpipeline.png)
+
+???
+
+- hard to see which tasks are manually triggered
+- hard to see if there is a new version that needs releasing
 
 ---
 
@@ -495,7 +565,17 @@ class: center middle
 
 class: center middle
 
+## convenience (paralellization, caching)
+
+---
+
+class: center middle
+
 ## limiting (in a good way)
+
+???
+
+- the "in a good way" can be argued
 
 ---
 
@@ -507,13 +587,13 @@ class: impact no-counter
 
 class: center middle
 
-## Cannot save artifacts
+## cannot save artifacts
 
 ---
 
 class: center middle
 
-## Does not update pipelines on push
+## does not update pipelines on push
 
 ---
 
@@ -531,7 +611,7 @@ class: impact no-counter
 
 class: center middle
 
-## Sparse documentation
+## sparse documentation
 
 ???
 
@@ -541,12 +621,12 @@ class: center middle
 
 class: center middle
 
-## Operational burden
+## operational burden
 
 ???
 
 - cryptic errors
-- doesn not really self report its health
+- does not really self report its health
 - multiple downtimes
 
 ---
