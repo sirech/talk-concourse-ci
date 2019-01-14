@@ -228,6 +228,10 @@ blockquote {
   background-color: $counter;
 }
 
+.quirk h2 {
+  color: red;
+}
+
 // Extra
 @import './extra.scss';
 
